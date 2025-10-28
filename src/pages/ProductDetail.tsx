@@ -5,15 +5,29 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCart } from '@/contexts/CartContext';
 import { allProducts } from '@/data/products';
-import { ShoppingCart, Star, Package, Shield, Truck, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, Star, Package, Shield, Truck, ArrowLeft, Calculator, Play } from 'lucide-react';
+import { useState } from 'react';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
+  const [cep, setCep] = useState('');
+  const [frete, setFrete] = useState<{ valor: number; prazo: number } | null>(null);
   
   const product = allProducts.find(p => p.id === id);
+
+  const calcularFrete = () => {
+    if (cep.length === 8) {
+      const valorFrete = Math.random() * 30 + 10;
+      const prazo = Math.floor(Math.random() * 10) + 3;
+      setFrete({ valor: valorFrete, prazo });
+    }
+  };
 
   if (!product) {
     return (
@@ -117,6 +131,37 @@ const ProductDetail = () => {
               {product.description}
             </p>
 
+            {/* Calculadora de Frete */}
+            <Card className="p-4 mb-4 bg-muted/50">
+              <div className="flex items-center gap-2 mb-3">
+                <Calculator className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold">Calcular Frete e Prazo</h3>
+              </div>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <Input
+                    placeholder="Digite seu CEP"
+                    value={cep}
+                    onChange={(e) => setCep(e.target.value.replace(/\D/g, ''))}
+                    maxLength={8}
+                  />
+                </div>
+                <Button onClick={calcularFrete} variant="secondary">
+                  Calcular
+                </Button>
+              </div>
+              {frete && (
+                <div className="mt-3 p-3 bg-card rounded-md border">
+                  <p className="text-sm font-medium">
+                    Frete: R$ {frete.valor.toFixed(2)}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Entrega em até {frete.prazo} dias úteis
+                  </p>
+                </div>
+              )}
+            </Card>
+
             <Button
               size="lg"
               className="w-full mb-4"
@@ -165,6 +210,89 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Seção de Detalhes Expandida */}
+        <Tabs defaultValue="descricao" className="mb-12">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="descricao">Descrição Completa</TabsTrigger>
+            <TabsTrigger value="video">Vídeo do Produto</TabsTrigger>
+            <TabsTrigger value="avaliacoes">Avaliações</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="descricao" className="mt-6">
+            <Card className="p-6">
+              <h3 className="text-2xl font-bold mb-4">Sobre este produto</h3>
+              <div className="space-y-4 text-muted-foreground leading-relaxed">
+                <p>{product.description}</p>
+                <p>
+                  Este produto foi cuidadosamente selecionado para nossa coleção e atende aos mais altos 
+                  padrões de qualidade. Ideal para colecionadores e entusiastas que buscam autenticidade 
+                  e excelência em cada detalhe.
+                </p>
+                <p>
+                  Garantimos a originalidade de todos os nossos produtos. Cada item passa por rigoroso 
+                  controle de qualidade antes de ser disponibilizado em nossa loja, assegurando que você 
+                  receba exatamente o que espera.
+                </p>
+                <div className="mt-6">
+                  <h4 className="font-semibold text-foreground mb-2">Características principais:</h4>
+                  <ul className="list-disc list-inside space-y-1">
+                    <li>Produto 100% original e licenciado</li>
+                    <li>Embalagem original lacrada</li>
+                    <li>Garantia de autenticidade</li>
+                    <li>Atendimento especializado</li>
+                    <li>Entrega rápida e segura</li>
+                  </ul>
+                </div>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="video" className="mt-6">
+            <Card className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Play className="h-5 w-5 text-primary" />
+                <h3 className="text-2xl font-bold">Vídeo do Produto</h3>
+              </div>
+              <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
+                <iframe
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  title="Vídeo do Produto"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Assista ao vídeo para conhecer todos os detalhes e características deste produto incrível.
+              </p>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="avaliacoes" className="mt-6">
+            <Card className="p-6">
+              <h3 className="text-2xl font-bold mb-4">Avaliações dos Clientes</h3>
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="border-b pb-4 last:border-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="flex">
+                        {Array.from({ length: 5 }).map((_, idx) => (
+                          <Star key={idx} className="h-4 w-4 fill-accent text-accent" />
+                        ))}
+                      </div>
+                      <span className="font-medium">Cliente {i}</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Produto excelente! Chegou rápido e muito bem embalado. 
+                      Superou minhas expectativas em todos os aspectos.
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </main>
 
       <Footer />
