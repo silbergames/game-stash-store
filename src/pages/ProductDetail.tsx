@@ -9,13 +9,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCart } from '@/contexts/CartContext';
+import { useFavorites } from '@/contexts/FavoritesContext';
 import { allProducts } from '@/data/products';
-import { ShoppingCart, Star, Package, Shield, Truck, ArrowLeft, Calculator, Play } from 'lucide-react';
+import { ShoppingCart, Star, Package, Shield, Truck, ArrowLeft, Calculator, Play, Heart } from 'lucide-react';
 import { useState } from 'react';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const [cep, setCep] = useState('');
   const [frete, setFrete] = useState<{ valor: number; prazo: number } | null>(null);
   
@@ -172,6 +174,22 @@ const ProductDetail = () => {
               {product.inStock ? 'Adicionar ao Carrinho' : 'Fora de Estoque'}
             </Button>
 
+            <Button
+              size="lg"
+              variant={isFavorite(product.id) ? "secondary" : "outline"}
+              className="w-full mb-4"
+              onClick={() => {
+                if (isFavorite(product.id)) {
+                  removeFromFavorites(product.id);
+                } else {
+                  addToFavorites(product);
+                }
+              }}
+            >
+              <Heart className={`mr-2 h-5 w-5 ${isFavorite(product.id) ? 'fill-current' : ''}`} />
+              {isFavorite(product.id) ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+            </Button>
+
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="text-center">
                 <Truck className="h-6 w-6 mx-auto mb-2 text-primary" />
@@ -257,7 +275,7 @@ const ProductDetail = () => {
               <div className="relative aspect-video bg-muted rounded-lg overflow-hidden">
                 <iframe
                   className="w-full h-full"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  src={product.videoUrl}
                   title="Vídeo do Produto"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen

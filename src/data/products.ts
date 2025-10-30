@@ -1,5 +1,11 @@
 import { Product } from '@/types/product';
 
+// Vídeos únicos para cada produto
+const gameVideos = [
+  'dQw4w9WgXcQ', 'kJQP7kiw5Fk', '9bZkp7q19f0', 'hTWKbfoikeg', 'jNQXAC9IVRw',
+  'uelHwf8o7_U', 'fJ9rUzIMcZQ', 'SX_ViT4Ra7k', '60ItHLz5WEA', 'L_jWHffIx5E'
+];
+
 // Gerando 300 produtos de jogos e action figures
 export const gamesProducts: Product[] = Array.from({ length: 300 }, (_, i) => {
   const categories = ['Videogame', 'Action Figure', 'Console', 'Acessório'];
@@ -27,6 +33,7 @@ export const gamesProducts: Product[] = Array.from({ length: 300 }, (_, i) => {
     inStock: i % 15 !== 0,
     rating: 3.5 + (i % 15) / 10,
     reviews: 50 + (i % 200),
+    videoUrl: `https://www.youtube.com/embed/${gameVideos[i % gameVideos.length]}`,
     specs: {
       'Material': category === 'Action Figure' ? 'PVC/ABS' : 'Digital',
       'Altura': category === 'Action Figure' ? `${15 + (i % 20)}cm` : 'N/A',
@@ -37,6 +44,12 @@ export const gamesProducts: Product[] = Array.from({ length: 300 }, (_, i) => {
     type: 'games',
   };
 });
+
+// Vídeos únicos para colecionáveis
+const collectibleVideos = [
+  'YQHsXMglC9A', 'fRh_vgS2dFE', 'OPf0YbXqDm0', 'hY7m5jjJ9mM', '2Vv-BfVoq4g',
+  'cz5BWjk4AAo', 'E8gmARGvPlI', 'eWzZ4qqLYb4', 'JGwWNGJdvx8', 'EngW7tLk6R8'
+];
 
 // Gerando 300 produtos de colecionáveis e legos
 export const collectiblesProducts: Product[] = Array.from({ length: 300 }, (_, i) => {
@@ -65,6 +78,7 @@ export const collectiblesProducts: Product[] = Array.from({ length: 300 }, (_, i
     inStock: i % 12 !== 0,
     rating: 4 + (i % 10) / 10,
     reviews: 30 + (i % 150),
+    videoUrl: `https://www.youtube.com/embed/${collectibleVideos[i % collectibleVideos.length]}`,
     specs: {
       'Tipo': category,
       'Peças': category === 'LEGO' ? `${500 + (i % 2000)}` : 'N/A',

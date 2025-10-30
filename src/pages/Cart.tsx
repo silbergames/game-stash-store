@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,12 @@ import { useCart } from '@/contexts/CartContext';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 
 const Cart = () => {
-  const { cartItems, updateQuantity, removeFromCart, getCartTotal, checkout } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, getCartTotal } = useCart();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    navigate('/checkout');
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -127,8 +132,8 @@ const Cart = () => {
                 <span className="text-primary">R$ {getCartTotal().toFixed(2)}</span>
               </div>
 
-              <Button size="lg" className="w-full mb-3" onClick={checkout}>
-                Finalizar Compra
+              <Button size="lg" className="w-full mb-3" onClick={handleCheckout}>
+                Ir para Checkout
               </Button>
 
               <Link to="/">

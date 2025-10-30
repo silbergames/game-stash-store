@@ -12,6 +12,7 @@ export interface Product {
   inStock: boolean;
   rating: number;
   reviews: number;
+  videoUrl: string;
   specs: Record<string, string>;
   type: 'games' | 'collectibles';
 }
