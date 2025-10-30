@@ -1,10 +1,17 @@
 import { Product } from '@/types/product';
+import gameImg from '@/assets/game-1.jpg';
+import figureImg from '@/assets/figure-1.jpg';
+import legoImg from '@/assets/lego-1.jpg';
+import cardImg from '@/assets/card-1.jpg';
 
 // Vídeos únicos para cada produto
 const gameVideos = [
   'dQw4w9WgXcQ', 'kJQP7kiw5Fk', '9bZkp7q19f0', 'hTWKbfoikeg', 'jNQXAC9IVRw',
   'uelHwf8o7_U', 'fJ9rUzIMcZQ', 'SX_ViT4Ra7k', '60ItHLz5WEA', 'L_jWHffIx5E'
 ];
+
+// Imagens dos produtos
+const productImages = [gameImg, figureImg, gameImg, figureImg];
 
 // Gerando 300 produtos de jogos e action figures
 export const gamesProducts: Product[] = Array.from({ length: 300 }, (_, i) => {
@@ -18,6 +25,7 @@ export const gamesProducts: Product[] = Array.from({ length: 300 }, (_, i) => {
   
   const basePrice = 59.99 + (i % 10) * 20;
   const hasDiscount = i % 5 === 0;
+  const mainImage = productImages[i % productImages.length];
   
   return {
     id: `game-${i + 1}`,
@@ -28,8 +36,8 @@ export const gamesProducts: Product[] = Array.from({ length: 300 }, (_, i) => {
     category,
     subcategory: subcat,
     brand,
-    image: '/placeholder.svg',
-    images: ['/placeholder.svg', '/placeholder.svg', '/placeholder.svg'],
+    image: mainImage,
+    images: [mainImage, mainImage, mainImage],
     inStock: i % 15 !== 0,
     rating: 3.5 + (i % 15) / 10,
     reviews: 50 + (i % 200),
@@ -51,6 +59,9 @@ const collectibleVideos = [
   'cz5BWjk4AAo', 'E8gmARGvPlI', 'eWzZ4qqLYb4', 'JGwWNGJdvx8', 'EngW7tLk6R8'
 ];
 
+// Imagens dos colecionáveis
+const collectibleImages = [legoImg, cardImg, legoImg, cardImg];
+
 // Gerando 300 produtos de colecionáveis e legos
 export const collectiblesProducts: Product[] = Array.from({ length: 300 }, (_, i) => {
   const categories = ['LEGO', 'Card Game', 'Estátua', 'Miniatura'];
@@ -63,6 +74,7 @@ export const collectiblesProducts: Product[] = Array.from({ length: 300 }, (_, i
   
   const basePrice = 79.99 + (i % 15) * 30;
   const hasDiscount = i % 7 === 0;
+  const mainImage = collectibleImages[i % collectibleImages.length];
   
   return {
     id: `collectible-${i + 1}`,
@@ -73,8 +85,8 @@ export const collectiblesProducts: Product[] = Array.from({ length: 300 }, (_, i
     category,
     subcategory: subcat,
     brand,
-    image: '/placeholder.svg',
-    images: ['/placeholder.svg', '/placeholder.svg', '/placeholder.svg'],
+    image: mainImage,
+    images: [mainImage, mainImage, mainImage],
     inStock: i % 12 !== 0,
     rating: 4 + (i % 10) / 10,
     reviews: 30 + (i % 150),
