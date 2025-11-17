@@ -23,8 +23,9 @@ const Header = () => {
 
   const navLinks = [
     { path: '/', label: 'Início' },
-    { path: '/jogos', label: 'Jogos & Figures' },
+    { path: '/jogos', label: 'Jogos' },
     { path: '/colecionaveis', label: 'Colecionáveis' },
+    { path: '/tecnologia', label: 'Tecnologia' },
     { path: '/sobre', label: 'Sobre Nós' },
   ];
 

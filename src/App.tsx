@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Games from "./pages/Games";
 import Collectibles from "./pages/Collectibles";
+import Tech from "./pages/Tech";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -32,9 +33,10 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/sobre" element={<About />} />
-                <Route path="/jogos" element={<Games />} />
-                <Route path="/colecionaveis" element={<Collectibles />} />
-                <Route path="/produto/:id" element={<ProductDetail />} />
+            <Route path="/jogos" element={<Games />} />
+            <Route path="/colecionaveis" element={<Collectibles />} />
+            <Route path="/tecnologia" element={<Tech />} />
+            <Route path="/produto/:id" element={<ProductDetail />} />
                 <Route path="/carrinho" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/pedidos" element={<Orders />} />
